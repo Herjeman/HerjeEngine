@@ -7,7 +7,6 @@ namespace HerjeEngine
 	{
 		while (true)
 		{
-
 		}
 	}
 
