@@ -1,0 +1,3 @@
+[submodule "HerjeEngine/ThirdParty/Spdlog"]
+	path = HerjeEngine/ThirdParty/Spdlog
+	url = https://github.com/gabime/spdlog
