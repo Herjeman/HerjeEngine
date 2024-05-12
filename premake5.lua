@@ -25,6 +25,7 @@ project "HerjeEngine"
 
 	includedirs
 	{
+		"%{prj.location}/Source",
 		"%{prj.location}/ThirdParty/Spdlog/include"
 	}
 
