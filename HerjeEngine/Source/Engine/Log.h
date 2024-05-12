@@ -6,13 +6,13 @@
 
 namespace HerjeEngine {
 
-	class HE_API Log
+	class Log
 	{
 	public:
-		static void Initialize();
+		HE_API static void Initialize();
 
-		inline static std::shared_ptr<spdlog::logger>& GetEngineLogger() { return s_EngineLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetGameLogger() { return s_GameLogger; }
+		HE_API inline static std::shared_ptr<spdlog::logger>& GetEngineLogger() { return s_EngineLogger; }
+		HE_API inline static std::shared_ptr<spdlog::logger>& GetGameLogger() { return s_GameLogger; }
 	private:
 		static std::shared_ptr<spdlog::logger> s_EngineLogger;
 		static std::shared_ptr<spdlog::logger> s_GameLogger;
@@ -32,6 +32,18 @@ namespace HerjeEngine {
 #define HE_LOG_CRITICAL(...)      HerjeEngine::Log::GetGameLogger()->critical(__VA_ARGS__)
 
 #ifdef HE_CONFIGURATION_RELEASE
+	#undef HE_LOG_CORE_TRACE  
+	#undef HE_LOG_CORE_INFO
+	#undef HE_LOG_CORE_WARN
+	#undef HE_LOG_CORE_ERROR
+	#undef HE_LOG_CORE_CRITICAL
+
+	#undef HE_LOG_TRACE   
+	#undef HE_LOG_INFO
+	#undef HE_LOG_WARN      
+	#undef HE_LOG_ERROR
+	#undef HE_LOG_CRITICAL
+
 	#define HE_LOG_CORE_TRACE  
 	#define HE_LOG_CORE_INFO
 	#define HE_LOG_CORE_WARN
