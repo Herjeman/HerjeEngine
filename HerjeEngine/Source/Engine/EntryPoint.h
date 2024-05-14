@@ -5,15 +5,31 @@
 
 extern HerjeEngine::Application* HerjeEngine::CreateApplication();
 
+struct SomeEvent {
+	int Num = 42;
+	SomeEvent() {}
+	SomeEvent(int num) : Num(num) {}
+};
+
+struct SomeOtherEvent {
+	std::string Str = "Foo";
+
+	SomeOtherEvent() {};
+	SomeOtherEvent(std::string str) : Str(str) {}
+};
+
+
 int main(int argc, char** argv)
 {
 	HerjeEngine::Log::Initialize();
-	HE_LOG_CORE_TRACE("Some text");
-	HE_LOG_INFO("Other text");
+	HE_LOG_CORE_INFO("Welcome to HerjeEngine");
 
 	auto app = HerjeEngine::CreateApplication();
 	app->Run();
 	delete app;
+
+	HE_LOG_CORE_INFO("Thank you for using HerjeEngine");
 }
+
 
 #endif // HE_PLATFORM_WINDOWS
