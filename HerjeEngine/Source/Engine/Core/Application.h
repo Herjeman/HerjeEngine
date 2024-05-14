@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.h"
+#include "Engine/Core.h"
 
 namespace HerjeEngine {
 
@@ -10,7 +10,7 @@ namespace HerjeEngine {
 
 		virtual ~Application(){}
 
-		void Run();
+		virtual void Run();
 	};
 
 	Application* CreateApplication();

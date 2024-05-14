@@ -6,8 +6,8 @@
 #include <vector>
 
 // For use by HE applications
-#include "Engine/Application.h"
-#include "Engine/Log.h"
+#include "Engine/Core/Application.h"
+#include "Engine/Log/Log.h"
 
 // Entry point
-#include "Engine/EntryPoint.h"
+#include "Engine/Core/EntryPoint.h"
