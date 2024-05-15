@@ -26,7 +26,17 @@ project "HerjeEngine"
 	includedirs
 	{
 		"%{prj.location}/Source",
-		"%{prj.location}/ThirdParty/Spdlog/include"
+		"%{prj.location}/ThirdParty/Spdlog/include",
+		"%{prj.location}/ThirdParty/SDL/include"
+	}
+
+	libdirs
+	{
+		"%{prj.location}/ThirdParty/SDL/VisualC/x64/%{cfg.buildcfg}/SDL3.lib"
+	}
+	links
+	{
+		"%{prj.location}/ThirdParty/SDL/VisualC/x64/%{cfg.buildcfg}/SDL3.lib"
 	}
 
 	filter "system:windows"
@@ -48,10 +58,12 @@ project "HerjeEngine"
 	filter "configurations:Release"
 		defines "HE_CONFIGURATION_RELEASE"
 		optimize "On"
+		buildoptions "/MD"
 
 	filter "configurations:Debug"
 		defines "HE_CONFIGURATION_DEBUG"
 		symbols "On"
+		buildoptions "/MDd"
 
 project "Game"
 	location "Game"
@@ -70,12 +82,19 @@ project "Game"
 	includedirs
 	{
 		"%{wks.location}/HerjeEngine/ThirdParty/Spdlog/include",
-		"HerjeEngine/Source"
+		"HerjeEngine/Source",
+		"%{wks.location}/HerjeEngine/ThirdParty/SDL/include"
+	}
+
+	libdirs
+	{
+		"%{wks.location}/HerjeEngine/ThirdParty/SDL/VisualC/x64/%{cfg.buildcfg}/SDL3.lib"
 	}
 
 	links
 	{
-		"HerjeEngine"
+		"HerjeEngine",
+		"%{wks.location}/HerjeEngine/ThirdParty/SDL/VisualC/x64/%{cfg.buildcfg}/SDL3.lib"
 	}
 
 	filter "system:windows"
