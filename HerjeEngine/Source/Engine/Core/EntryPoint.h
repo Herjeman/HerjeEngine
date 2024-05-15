@@ -24,9 +24,9 @@ int main(int argc, char** argv)
 	HerjeEngine::Log::Initialize();
 	HE_LOG_CORE_INFO("Welcome to HerjeEngine");
 
-	auto app = HerjeEngine::CreateApplication();
-	app->Run();
-	delete app;
+	auto application = HerjeEngine::CreateApplication();
+	application->Run();
+	delete application;
 
 	HE_LOG_CORE_INFO("Thank you for using HerjeEngine");
 }
