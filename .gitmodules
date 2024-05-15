@@ -1,3 +1,6 @@
 [submodule "HerjeEngine/ThirdParty/Spdlog"]
 	path = HerjeEngine/ThirdParty/Spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "HerjeEngine/ThirdParty/SDL"]
+	path = HerjeEngine/ThirdParty/SDL
+	url = https://github.com/libsdl-org/SDL
