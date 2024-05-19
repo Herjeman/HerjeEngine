@@ -10,7 +10,6 @@ int main(int argc, char** argv)
 {
 	HerjeEngine::Log::Initialize();
 	HE_LOG_CORE_INFO("Welcome to HerjeEngine"); 
-	
 	HerjeEngine::InitializeDependencies();
 
 	auto application = HerjeEngine::CreateApplication();

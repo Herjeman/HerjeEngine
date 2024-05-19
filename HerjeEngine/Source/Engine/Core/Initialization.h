@@ -8,6 +8,7 @@ namespace HerjeEngine
 	{
 		SDL_Init(SDL_INIT_VIDEO);
 		HE_LOG_CORE_INFO("SDL initialized");
+
 	}
 
 	void ShutDownDependencies()

@@ -1,18 +1,30 @@
 #pragma once
 #include "Engine/Core.h"
+//#include "HerjeEngine.h"
+#include "memory"
 
 namespace HerjeEngine {
 
-	class HE_API Application
+	class Application
 	{
 	public:
-		Application() {}
+		HE_API Application();
 
-		virtual ~Application(){}
+		HE_API virtual ~Application();
 
-		virtual void Run();
+		HE_API virtual void Run();
+
+	protected:
+		HE_API class HEWindow* GetWindow() { return m_Window.get(); }
+		HE_API bool ShouldRun() { return m_ShouldRun; }
+		HE_API void Shutdown() { m_ShouldRun = false; }
+
+	private:
+		bool m_ShouldRun = true;
+		std::unique_ptr<class HEWindow> m_Window;
 	};
 
 	Application* CreateApplication();
+
 }
 

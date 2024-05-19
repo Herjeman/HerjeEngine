@@ -1,14 +1,19 @@
 #include "Application.h"
+#include "HEWindow.h"
 
 
 namespace HerjeEngine
 {
-	void Application::Run()
+	Application::Application()
 	{
-		while (true)
-		{
-		}
+		m_Window = std::make_unique<HEWindow>();
 	}
+
+	Application::~Application()
+	{
+	}
+
+	void Application::Run() {}
 
 
 }
