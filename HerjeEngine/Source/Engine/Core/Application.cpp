@@ -1,3 +1,4 @@
+#include "HEPreCompiled.h"
 #include "Application.h"
 #include "HEWindow.h"
 

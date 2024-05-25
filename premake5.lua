@@ -17,6 +17,9 @@ project "HerjeEngine"
 	targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
 	objdir ("Binaries_Intermediaries/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "HEPreCompiled.h"
+	pchsource "%{prj.name}/Source/HEPreCompiled.cpp"
+
 	files
 	{
 		"%{prj.name}/Source/**.h",

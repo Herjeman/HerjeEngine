@@ -1,5 +1,5 @@
+#include "HEPreCompiled.h"
 #include "Vector2.h"
-#include <cmath>
 
 namespace HerjeEngine {
 	inline float FVector2::Magnitude() const

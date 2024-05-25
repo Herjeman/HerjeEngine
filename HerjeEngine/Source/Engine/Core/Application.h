@@ -1,7 +1,6 @@
 #pragma once
+#include "HEPreCompiled.h"
 #include "Engine/Core.h"
-//#include "HerjeEngine.h"
-#include "memory"
 
 namespace HerjeEngine {
 

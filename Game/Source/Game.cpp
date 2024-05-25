@@ -4,9 +4,7 @@ class Game : public HerjeEngine::Application
 {
 public:
 	Game()
-	{
-		HE_LOG_CORE_WARN("Game Constructor");
-	}
+	{}
 	~Game(){}
 
 	void Run() override
