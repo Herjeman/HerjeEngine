@@ -9,3 +9,9 @@
 #else
 	#error HerjeEngine only supports Windows!
 #endif
+
+#ifdef HE_ENABLE_ASSERTS
+	#define HE_ASSERT(x, ...) if(!x){ HE_LOG_CORE_ERROR(__VA_ARGS__); __debugbreak();}
+#else
+	#define HE_ASSERT(x, ...)
+#endif // HE_ENABLE_ASSERTS

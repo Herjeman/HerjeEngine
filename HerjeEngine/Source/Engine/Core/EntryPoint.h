@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Core.h"
 #include "Application.h"
 #include "Initialization.h"
 
@@ -13,6 +14,8 @@ int main(int argc, char** argv)
 	HerjeEngine::InitializeDependencies();
 
 	auto application = HerjeEngine::CreateApplication();
+	HE_ASSERT(application, "Application is null")
+
 	application->Run();
 	delete application;
 

@@ -18,12 +18,11 @@ public:
 			{
 				Shutdown();
 			}
-
 		}
 	}
 };
 
 HerjeEngine::Application* HerjeEngine::CreateApplication() 
 { 
-	return new Game(); 
+	return new Game();
 }

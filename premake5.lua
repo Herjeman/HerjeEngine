@@ -64,7 +64,11 @@ project "HerjeEngine"
 		buildoptions "/MD"
 
 	filter "configurations:Debug"
-		defines "HE_CONFIGURATION_DEBUG"
+		defines 
+		{
+			"HE_CONFIGURATION_DEBUG",
+			"HE_ENABLE_ASSERTS"
+		}
 		symbols "On"
 		buildoptions "/MDd"
 
@@ -115,5 +119,9 @@ project "Game"
 		optimize "On"
 
 	filter "configurations:Debug"
-		defines "HE_CONFIGURATION_DEBUG"
+		defines 
+		{ 
+			"HE_CONFIGURATION_DEBUG", 
+			"HE_ENABLE_ASSERTS"
+		}
 		symbols "On"
