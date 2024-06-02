@@ -17,6 +17,8 @@ public:
 	inline const T& GetFlag() const { return m_Flag; }
 	inline constexpr int GetSize() const { return sizeof(m_Flag); }
 
+	inline constexpr void UnsetAll() { m_Flag = 0; }
+
 private:
 	T m_Flag = 0;
 };
