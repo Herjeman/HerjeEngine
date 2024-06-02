@@ -12,6 +12,8 @@ namespace HerjeEngine
 		HE_CORE_ASSERT(m_Window, "HE Window creation failed");
 		m_Renderer = std::make_unique<HERenderer2D>(m_Window.get()->GetWindow());
 		HE_CORE_ASSERT(m_Renderer, "HERenderer creation failed");
+
+		HEEntityManager::Get();
 	}
 
 	Application::~Application(){}
