@@ -9,27 +9,25 @@ public:
 	void PreLoop() override 
 	{
 		m_Runtime = 0;
-		m_NextLog = 1000000;
+		m_NextLog = 20000000;
 	}
 
 	void Update(float deltaTime) override
 	{
 		m_Runtime += (int)deltaTime;
-		if (m_Runtime >= 1000000000)
+		if (m_Runtime >= 250000000)
 		{
-			std::string msg = "Runtime: ";
+			std::string msg = "Shutting down after: ";
 			msg.append(std::to_string(m_Runtime));
-			HE_LOG_TRACE(msg);
-			HE_LOG_INFO("Shutting down");
+			msg.append(" cycles.");
+			HE_LOG_INFO(msg);
 			Shutdown();
 			return;
 		}
 		if (m_Runtime >= m_NextLog)
 		{
-			std::string msg = "Runtime: ";
-			msg.append(std::to_string(m_Runtime));
-			HE_LOG_TRACE(msg);
-			m_NextLog += 1000000;
+			HE_LOG_TRACE("Running...");
+			m_NextLog += 20000000;
 		}
 	}
 
