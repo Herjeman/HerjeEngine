@@ -14,7 +14,17 @@ namespace HerjeEngine
 	{
 	}
 
-	void Application::Run() {}
+	void Application::Run() 
+	{
+		PreLoop();
+
+		while (m_ShouldRun)
+		{
+			Update(1.0f);
+		}
+
+		Clean();
+	}
 
 
 }
