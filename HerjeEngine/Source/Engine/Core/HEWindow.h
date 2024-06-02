@@ -14,6 +14,8 @@ namespace HerjeEngine {
 
 	class HEWindow
 	{
+		friend class HERenderer2D;
+
 	public:
 		HEWindow();
 		~HEWindow();
@@ -22,6 +24,9 @@ namespace HerjeEngine {
 
 		const inline FVector2& GetDimensions() const { return m_WindowData.Dimensions; }
 		const inline char* GetTitle() const { return m_WindowData.Title; }
+		SDL_Window* GetWindow() { return m_Window; }
+
+	protected:
 
 	private:
 		SDL_Window* m_Window;

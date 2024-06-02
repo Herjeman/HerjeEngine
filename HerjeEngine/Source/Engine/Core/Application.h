@@ -26,8 +26,12 @@ namespace HerjeEngine {
 
 
 	private:
+		void Render();
+
+	private:
 		bool m_ShouldRun = true;
 		std::unique_ptr<class HEWindow> m_Window;
+		std::unique_ptr<class HERenderer2D> m_Renderer;
 	};
 
 	Application* CreateApplication();
