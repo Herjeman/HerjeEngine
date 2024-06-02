@@ -39,8 +39,8 @@ public:
 	}
 
 private:
-	int m_Runtime;
-	int m_NextLog;
+	int m_Runtime = 0;
+	int m_NextLog = 0;
 };
 
 HerjeEngine::Application* HerjeEngine::CreateApplication() 

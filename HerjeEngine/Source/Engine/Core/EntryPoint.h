@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	HerjeEngine::InitializeDependencies();
 
 	auto application = HerjeEngine::CreateApplication();
-	HE_ASSERT(application, "Application is null")
+	HE_CORE_ASSERT(application, "Application is null")
 
 	application->Run();
 	delete application;
