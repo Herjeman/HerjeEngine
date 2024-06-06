@@ -30,6 +30,8 @@ namespace HerjeEngine {
 
 	private:
 		bool m_ShouldRun = true;
+
+		// Should I put these on stack?
 		std::unique_ptr<class HEWindow> m_Window;
 		std::unique_ptr<class HERenderer2D> m_Renderer;
 	};

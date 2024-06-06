@@ -1,5 +1,6 @@
 #pragma once
 #include "HerjeEngine.h"
+#include "Engine/ECSCore/HEEntityComponentSystem.h"
 #include <SDL3/SDL.h>
 
 namespace HerjeEngine
@@ -12,13 +13,18 @@ namespace HerjeEngine
 		}
 		else
 		{
-			HE_LOG_CORE_INFO("SDL initialized");
+			HE_LOG_CORE_INFO("SDL Initialized");
 		}
+	}
+
+	void InitializeInternal()
+	{
+		HEEntityComponentSystem::Get();
 	}
 
 	void ShutDownDependencies()
 	{
 		SDL_Quit();
-		HE_LOG_CORE_INFO("SDL shutdown");
+		HE_LOG_CORE_INFO("SDL Shutdown");
 	}
 }
