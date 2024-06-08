@@ -3,16 +3,28 @@
 #include "HEEntityManager.h"
 #include "HEComponentManager.h"
 #include "HESystem.h"
+#include "Utilities/Vector2.h"
 
 namespace HerjeEngine
 {
-	// This is a singleton class that manages all Entities, Components and Systems
-	// It should be the access point from Game code to register new Components 
-	// and Systems. As well as to access Entities.
-
-	struct HE_API MyComponent
+	enum class HE_API EEntitySignature : uint64_t
 	{
-		int num = 30;
+		IsActive = 1 << 0,
+		Transform = 1 << 1,
+		Velocity = 1 << 2
+	};
+
+
+	struct HE_API TransformComponent
+	{
+		FVector2 Location;
+		FVector2 Scale;
+		float Rotation;
+	};
+
+	struct HE_API VelocityComponent
+	{
+		FVector2 Velocity;
 	};
 
 	class HEEntityComponentSystem
@@ -22,19 +34,22 @@ namespace HerjeEngine
 		~HEEntityComponentSystem();
 
 	public:
+		// TODO: Probably not expose this, bur create wrappers 
 		HE_API static HEEntityComponentSystem& Get();
 
 		HEEntityComponentSystem(const HEEntityComponentSystem& obj) = delete;
 		HEEntityComponentSystem& operator=(const HEEntityComponentSystem&) = delete;
 
+		// TODO: Probably not expose this, bur create wrappers 
 		HE_API size_t AddEntity(uint64_t signature);
+		HE_API void DeactivateEntity(size_t id);
 
 		template<typename T>
-		HE_API uint64_t RegisterComponent();
-
+		uint64_t RegisterComponent();
+		
 
 		template<typename T>
-		HE_API void RegisterSystem();
+		void RegisterSystem();
 
 	private:
 		HEComponentManager m_ComponentManager;
@@ -42,7 +57,9 @@ namespace HerjeEngine
 
 		std::vector<std::unique_ptr<HESystem>> m_Systems;
 	};
-		template HE_API uint64_t HEEntityComponentSystem::RegisterComponent<MyComponent>();
+
+	template uint64_t HEEntityComponentSystem::RegisterComponent<TransformComponent>();
+	template uint64_t HEEntityComponentSystem::RegisterComponent<VelocityComponent>();
 }
 
 

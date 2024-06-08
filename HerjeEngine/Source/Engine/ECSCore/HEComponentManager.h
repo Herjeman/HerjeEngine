@@ -22,7 +22,7 @@ namespace HerjeEngine
 				HE_CORE_ASSERT(false, "Index out of range");
 				return {};
 			}
-			return m_Components[index]; 
+			return m_Components[index];
 		}
 
 		void AddComponent() override { m_Components.push_back(T()); }
@@ -65,7 +65,19 @@ namespace HerjeEngine
 			return ComponentSignature;
 		}
 
+		template<typename T>
+		T& GetComponent(const size_t& entityID,const uint64_t& componentSignature) const
+		{
+			auto* componentList = GetComponentList(componentSignature);
+			HE_CORE_ASSERT(componentList, "No Component list found for component");
+			
+			// this is unsafe...
+			return GetComponentList(componentSignature)[entityID];
+		}
+
 		const ComponentList* GetComponentList(const uint64_t componentSignature) const;
+		
+
 
 		void AddComponentsForNewEntity();
 		void ResetComponentsForEntity(size_t index);

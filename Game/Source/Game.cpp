@@ -9,8 +9,10 @@ public:
 
 	void PreLoop() override 
 	{
+
 		auto& ECS = HerjeEngine::HEEntityComponentSystem::Get();
-		uint64_t signature = ECS.RegisterComponent<HerjeEngine::MyComponent>();
+		ECS.AddEntity(static_cast<uint64_t>(HerjeEngine::EEntitySignature::Transform));
+		ECS;
 
 		m_Runtime = 0;
 		m_NextLog = 20000000;

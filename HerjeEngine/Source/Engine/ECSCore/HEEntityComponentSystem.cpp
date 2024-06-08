@@ -5,6 +5,9 @@ namespace HerjeEngine
 {
     HEEntityComponentSystem::HEEntityComponentSystem()
     {
+        RegisterComponent<TransformComponent>();
+        RegisterComponent<VelocityComponent>();
+
         HE_LOG_CORE_INFO("ECS Initialised");
     }
 
@@ -33,6 +36,12 @@ namespace HerjeEngine
         }
 
         return entityID;
+    }
+
+    void HEEntityComponentSystem::DeactivateEntity(size_t id)
+    {
+        m_EntityManager.DeactivateEntity(id);
+        m_ComponentManager.ResetComponentsForEntity(id);
     }
 
     template<typename T>

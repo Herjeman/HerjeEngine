@@ -4,11 +4,6 @@
 
 namespace HerjeEngine
 {
-	enum class EEntitySignature : uint64_t
-	{
-		IsActive = 1 << 0,
-	};
-
 	struct Entity
 	{
 		// Set signature in constructor?

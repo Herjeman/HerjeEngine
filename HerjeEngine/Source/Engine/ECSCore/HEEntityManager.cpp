@@ -1,5 +1,6 @@
 #include "HEPreCompiled.h"
 #include "HEComponentManager.h"
+#include "HEEntityComponentSystem.h"
 #include "HEEntityManager.h"
 
 namespace HerjeEngine
