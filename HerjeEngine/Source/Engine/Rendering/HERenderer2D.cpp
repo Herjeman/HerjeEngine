@@ -16,4 +16,9 @@ namespace HerjeEngine
 	{
 		SDL_DestroyRenderer(m_Renderer);
 	}
+
+	void HERenderer2D::RenderEntities()
+	{
+
+	}
 }

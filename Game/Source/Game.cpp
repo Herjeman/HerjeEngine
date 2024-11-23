@@ -1,4 +1,5 @@
 #include <HerjeEngine.h>
+#include <Engine/ECS/HEEntityComponentSystem.h>
 
 class Game : public HerjeEngine::Application
 {
@@ -8,6 +9,10 @@ public:
 
 	void PreLoop() override 
 	{
+
+		auto& ECS = HerjeEngine::HEEntityComponentSystem::Get();
+		ECS.AddEntity(static_cast<uint64_t>(HerjeEngine::EEntitySignature::Transform));
+
 		m_Runtime = 0;
 		m_NextLog = 20000000;
 	}

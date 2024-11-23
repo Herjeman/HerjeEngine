@@ -1,53 +1,47 @@
 #include "HEPreCompiled.h"
+#include "HEComponentManager.h"
+#include "HEEntityComponentSystem.h"
 #include "HEEntityManager.h"
 
 namespace HerjeEngine
 {
-	HEEntityManager& HEEntityManager::Get()
+	Entity& HEEntityManager::GetEntityChecked(int index)
 	{
-		static HEEntityManager entityManager;
-		return entityManager;
+		HE_CORE_ASSERT(m_Entities.size() && m_Entities.size() > index, "Get Entity Index is out of range");
+		return m_Entities[index];
 	}
 
-	Entity& HEEntityManager::CreateEntity()
+	size_t HEEntityManager::CreateEntity(uint64_t signature, bool& createdNew)
 	{
 		if (m_InactiveEntityIndexes.size() > 0)
 		{
-			Entity& newEntity = m_Entities[m_InactiveEntityIndexes.back()];
+			int index = m_InactiveEntityIndexes.back();
+			Entity& newEntity = m_Entities[index];
 			m_InactiveEntityIndexes.pop_back();
-			newEntity.Reset();
-			newEntity.Signature.SetFlag(static_cast<uint32_t>(EEntitySignature::IsActive));
+			BitFlag::SetFlags(newEntity.Signature, signature |= 1);
+			createdNew = false;
 
-			return newEntity;
+			return index;
 		}
 
-		m_Entities.push_back(Entity(m_HighestActiveEntityID));
-		m_Entities.back().Signature.SetFlag(static_cast<uint32_t>(EEntitySignature::IsActive));
-		m_HighestActiveEntityID++;
+		m_Entities.push_back(Entity());
+		BitFlag::SetFlags(m_Entities.back().Signature, static_cast<uint64_t>(EEntitySignature::IsActive));
+		createdNew = true;
 
-		return m_Entities.back();
+		return m_Entities.size() - 1;
 	}
 
-	void HEEntityManager::DestroyEntity(int ID)
+	void HEEntityManager::DeactivateEntity(int index)
 	{
-		bool success = false;
-		for (int i = 0; i < m_Entities.size(); i++)
-		{
-			if (m_Entities[i].ID == ID)
-			{
-				m_Entities[i].Signature.UnsetFlag(static_cast<uint32_t>(EEntitySignature::IsActive));
-				m_InactiveEntityIndexes.push_back(i);
-				success = true;
-				break;
-			}
-		}
-		HE_CORE_ASSERT(success, "Failed to Destroy Entity: Invalid ID");
+		HE_CORE_ASSERT(m_Entities.size() && m_Entities.size() > index, "Failed to Destroy Entity: Invalid ID");
+		m_Entities[index].Reset();
+		m_InactiveEntityIndexes.push_back(index);
+
 	}
 	void HEEntityManager::ClearEntities()
 	{
 		m_InactiveEntityIndexes.clear();
 		m_Entities.clear();
-		m_HighestActiveEntityID = 0;
 	}
 }
 
