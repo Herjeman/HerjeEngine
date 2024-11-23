@@ -34,22 +34,26 @@ namespace HerjeEngine
 		~HEEntityComponentSystem();
 
 	public:
-		// TODO: Probably not expose this, bur create wrappers 
 		HE_API static HEEntityComponentSystem& Get();
 
 		HEEntityComponentSystem(const HEEntityComponentSystem& obj) = delete;
 		HEEntityComponentSystem& operator=(const HEEntityComponentSystem&) = delete;
 
-		// TODO: Probably not expose this, bur create wrappers 
 		HE_API size_t AddEntity(uint64_t signature);
 		HE_API void DeactivateEntity(size_t id);
 
 		template<typename T>
-		uint64_t RegisterComponent();
-		
+		uint64_t RegisterComponent()
+		{
+			return m_ComponentManager.RegisterComponent<T>();
+		}
+
 
 		template<typename T>
-		void RegisterSystem();
+		void RegisterSystem()
+		{
+			m_Systems.push_back(std::make_unique(new T));
+		}
 
 	private:
 		HEComponentManager m_ComponentManager;
