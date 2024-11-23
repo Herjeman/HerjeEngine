@@ -56,7 +56,7 @@ namespace HerjeEngine
 			}
 
 			// Shift one extra bit because the first bit is reserved for IsActive
-			uint64_t ComponentSignature = static_cast<uint64_t>(1 << (m_RegisteredComponents + 1));
+			uint64_t ComponentSignature = static_cast<uint64_t>(static_cast<uint64_t>(1) << (m_RegisteredComponents + 1));
 
 			m_ComponentListIndexes[ComponentSignature] = m_RegisteredComponents;
 			m_ComponentLists[m_RegisteredComponents] = new SpecificComponentList<T>();

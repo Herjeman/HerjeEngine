@@ -15,7 +15,7 @@ namespace HerjeEngine
 	{
 		if (m_InactiveEntityIndexes.size() > 0)
 		{
-			int index = m_InactiveEntityIndexes.back();
+			uint64_t index = m_InactiveEntityIndexes.back();
 			Entity& newEntity = m_Entities[index];
 			m_InactiveEntityIndexes.pop_back();
 			BitFlag::SetFlags(newEntity.Signature, signature |= 1);
@@ -31,7 +31,7 @@ namespace HerjeEngine
 		return m_Entities.size() - 1;
 	}
 
-	void HEEntityManager::DeactivateEntity(int index)
+	void HEEntityManager::DeactivateEntity(uint64_t index)
 	{
 		HE_CORE_ASSERT(m_Entities.size() && m_Entities.size() > index, "Failed to Destroy Entity: Invalid ID");
 		m_Entities[index].Reset();

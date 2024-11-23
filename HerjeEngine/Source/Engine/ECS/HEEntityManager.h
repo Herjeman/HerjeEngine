@@ -26,12 +26,12 @@ namespace HerjeEngine
 		Entity& GetEntityChecked(int index);
 
 		size_t CreateEntity(uint64_t signature, bool& createdNew);
-		void DeactivateEntity(int ID);
+		void DeactivateEntity(uint64_t ID);
 
 		void ClearEntities();
 
 	private:
-		std::vector<int> m_InactiveEntityIndexes;
+		std::vector<uint64_t> m_InactiveEntityIndexes;
 		std::vector<Entity> m_Entities;
 	};
 }
