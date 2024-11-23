@@ -1,6 +1,6 @@
 #pragma once
 #include "HerjeEngine.h"
-#include "Engine/ECSCore/HEEntityComponentSystem.h"
+#include "Engine/ECS/HEEntityComponentSystem.h"
 #include <SDL3/SDL.h>
 
 namespace HerjeEngine

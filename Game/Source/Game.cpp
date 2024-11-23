@@ -1,5 +1,5 @@
 #include <HerjeEngine.h>
-#include <Engine/ECSCore/HEEntityComponentSystem.h>
+#include <Engine/ECS/HEEntityComponentSystem.h>
 
 class Game : public HerjeEngine::Application
 {
@@ -12,7 +12,6 @@ public:
 
 		auto& ECS = HerjeEngine::HEEntityComponentSystem::Get();
 		ECS.AddEntity(static_cast<uint64_t>(HerjeEngine::EEntitySignature::Transform));
-		ECS;
 
 		m_Runtime = 0;
 		m_NextLog = 20000000;

@@ -5,12 +5,12 @@ namespace HerjeEngine
 {
 	HEComponentManager::HEComponentManager()
 	{
-		m_ComponentLists = new ComponentList*[m_MaxComponents];
+		m_ComponentLists = new ComponentList * [m_MaxComponents];
 	}
 
 	HEComponentManager::~HEComponentManager()
 	{
-		for (size_t i = 0; i < m_MaxComponents; i++)
+		for (size_t i = 0; i < m_RegisteredComponents; i++)
 		{
 			delete m_ComponentLists[i];
 		}

@@ -1,6 +1,6 @@
 #include "HEPreCompiled.h"
 #include "Utilities/BitFlag.h"
-#include "Engine/ECSCore/HEEntityManager.h"
+#include "Engine/ECS/HEEntityManager.h"
 #include "HESystem.h"
 
 namespace HerjeEngine
