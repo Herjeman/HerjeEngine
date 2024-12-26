@@ -3,19 +3,19 @@
 class Game : public HerjeEngine::Application
 {
 public:
-	Game(){}
-	~Game(){}
+	Game() {}
+	~Game() {}
 
-	void PreLoop() override 
+	void PreLoop() override
 	{
 		m_Runtime = 0;
-		m_NextLog = 20000000;
+		m_NextLog = 20000;
 	}
 
 	void Update(float deltaTime) override
 	{
 		m_Runtime += static_cast<int>(deltaTime);
-		if (m_Runtime >= 250000000)
+		if (m_Runtime >= 250000)
 		{
 			std::string msg = "Shutting down after: ";
 			msg.append(std::to_string(m_Runtime));
@@ -27,7 +27,7 @@ public:
 		if (m_Runtime >= m_NextLog)
 		{
 			HE_LOG_TRACE("Running...");
-			m_NextLog += 20000000;
+			m_NextLog += 20000;
 		}
 	}
 
@@ -41,7 +41,7 @@ private:
 	int m_NextLog = 0;
 };
 
-HerjeEngine::Application* HerjeEngine::CreateApplication() 
-{ 
+HerjeEngine::Application* HerjeEngine::CreateApplication()
+{
 	return new Game();
 }
