@@ -1,6 +1,7 @@
 #include "HEPreCompiled.h"
 #include "Application.h"
 #include "HEWindow.h"
+#include "Engine/Input/InputSystem.h"
 #include "Engine/Rendering/HERenderer2D.h"
 
 namespace HerjeEngine
@@ -15,14 +16,24 @@ namespace HerjeEngine
 
 	}
 
-	Application::~Application(){}
+	Application::~Application() {}
 
-	void Application::Run() 
+	void Application::Run()
 	{
 		PreLoop();
+		EventListener<InputEvent> quitEventListener(
+			[this](const InputEvent& event)
+			{
+				if (event.EventSignature == InputEventID::QUIT)
+				{
+					Shutdown();
+				}
+			},
+			InputSystem::Get().GetInputEventDispatcher());
 
 		while (m_ShouldRun)
 		{
+			HandleInput();
 			Update(1.0f);
 			Render();
 		}
@@ -30,12 +41,17 @@ namespace HerjeEngine
 		Clean();
 	}
 
+	void Application::HandleInput()
+	{
+		InputSystem::Get().ProcessInput();
+	}
+
 	void Application::Render()
 	{
 		m_Renderer->PreRender();
 
 		const Vector2& WindowDimensions = m_Window->GetDimensions();
-		m_Renderer->RenderSquare({WindowDimensions.X * 0.5f, WindowDimensions.Y * 0.5f}, {500.f, 200.f});
+		m_Renderer->RenderSquare({ WindowDimensions.X * 0.5f, WindowDimensions.Y * 0.5f }, { 500.f, 200.f });
 
 		m_Renderer->PostRender();
 	}

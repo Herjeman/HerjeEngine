@@ -20,12 +20,13 @@ namespace HerjeEngine {
 		HE_API void Shutdown() { m_ShouldRun = false; }
 
 		// ----------- Game Overrides
-		HE_API virtual void PreLoop(){}
-		HE_API virtual void Update(float deltaTime){}
-		HE_API virtual void Clean(){}
+		HE_API virtual void PreLoop() {}
+		HE_API virtual void Update(float deltaTime) {}
+		HE_API virtual void Clean() {}
 
 
 	private:
+		void HandleInput();
 		void Render();
 
 	private:

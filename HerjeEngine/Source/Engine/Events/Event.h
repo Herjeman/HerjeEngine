@@ -1,8 +1,7 @@
 #pragma once
 #include "Engine/Core.h"
-#include "HerjeEngine.h"
 
-namespace HerjeEngine 
+namespace HerjeEngine
 {
 	template<typename EventType>
 	class EventDispatcher;
