@@ -6,7 +6,7 @@ namespace HerjeEngine {
 
 	struct HEWindowData {
 		const char* Title = "";
-		FVector2 Dimensions = { 800, 600 };
+		Vector2 Dimensions = { 800, 600 };
 
 		// Maybe some option to pass flags?
 
@@ -22,7 +22,7 @@ namespace HerjeEngine {
 
 		void Update();
 
-		const inline FVector2& GetDimensions() const { return m_WindowData.Dimensions; }
+		const inline Vector2& GetDimensions() const { return m_WindowData.Dimensions; }
 		const inline char* GetTitle() const { return m_WindowData.Title; }
 		SDL_Window* GetWindow() { return m_Window; }
 

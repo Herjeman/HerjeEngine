@@ -17,14 +17,14 @@ namespace HerjeEngine
 
 	struct HE_API TransformComponent
 	{
-		FVector2 Location;
-		FVector2 Scale;
+		Vector2 Location;
+		Vector2 Scale;
 		float Rotation;
 	};
 
 	struct HE_API VelocityComponent
 	{
-		FVector2 Velocity;
+		Vector2 Velocity;
 	};
 
 	class HEEntityComponentSystem
