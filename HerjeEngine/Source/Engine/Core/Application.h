@@ -12,11 +12,12 @@ namespace HerjeEngine {
 		HE_API virtual ~Application();
 
 		HE_API void Run();
+		HE_API class HERenderer2D* GetRenderer() const;
 
 	protected:
 		// ----------- Game Accessors
 		HE_API class HEWindow* GetWindow() { return m_Window.get(); }
-		HE_API bool ShouldRun() { return m_ShouldRun; }
+		HE_API bool ShouldRun() const { return m_ShouldRun; }
 		HE_API void Shutdown() { m_ShouldRun = false; }
 
 		// ----------- Game Overrides
@@ -27,14 +28,13 @@ namespace HerjeEngine {
 
 	private:
 		void HandleInput();
-		void Render();
-
-	private:
 		bool m_ShouldRun = true;
 
-		// Should I put these on stack?
+	protected:
+		// Do these need to be heap allocated?
 		std::unique_ptr<class HEWindow> m_Window;
 		std::unique_ptr<class HERenderer2D> m_Renderer;
+		std::unique_ptr<class HEEntityComponentSystem> m_ECS;
 	};
 
 	Application* CreateApplication();

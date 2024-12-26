@@ -1,4 +1,6 @@
 #include <HerjeEngine.h>
+#include <Engine/ECS/HEECS.h>
+#include <Utilities/Vector2.h>
 
 class Game : public HerjeEngine::Application
 {
@@ -10,6 +12,13 @@ public:
 	{
 		m_Runtime = 0;
 		m_NextLog = 20000;
+
+		const auto Entity = m_ECS->AddEntity();
+		HerjeEngine::LocationComponent Loc = { HerjeEngine::Vector2{200, 300} };
+		HerjeEngine::RectangleComponent Rec = { HerjeEngine::Vector2{20, 30} };
+
+		m_ECS->LocationComponents.SetComponent(Entity, Loc, m_ECS->EntityManager);
+		m_ECS->RectangleComponents.SetComponent(Entity, Rec, m_ECS->EntityManager);
 	}
 
 	void Update(float deltaTime) override
