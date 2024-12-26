@@ -32,7 +32,12 @@ namespace HerjeEngine
 
 	void Application::Render()
 	{
+		m_Renderer->PreRender();
 
+		const Vector2& WindowDimensions = m_Window->GetDimensions();
+		m_Renderer->RenderSquare({WindowDimensions.X * 0.5f, WindowDimensions.Y * 0.5f}, {500.f, 200.f});
+
+		m_Renderer->PostRender();
 	}
 
 

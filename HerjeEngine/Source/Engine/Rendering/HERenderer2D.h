@@ -8,7 +8,10 @@ namespace HerjeEngine
 		HERenderer2D(struct SDL_Window* window);
 		~HERenderer2D();
 
-		void RenderEntities();
+		void PreRender();
+		void PostRender();
+
+		void RenderSquare(const Vector2& Origin, const Vector2& Size);
 
 	private:
 		struct SDL_Renderer* m_Renderer;

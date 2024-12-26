@@ -17,8 +17,21 @@ namespace HerjeEngine
 		SDL_DestroyRenderer(m_Renderer);
 	}
 
-	void HERenderer2D::RenderEntities()
+	void HERenderer2D::PreRender()
 	{
+		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 0);
+		SDL_RenderClear(m_Renderer);
+	}
 
+	void HERenderer2D::PostRender()
+	{
+		SDL_RenderPresent(m_Renderer);
+	}
+
+	void HERenderer2D::RenderSquare(const Vector2& Origin, const Vector2& Size)
+	{
+		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+		SDL_FRect rect = SDL_FRect{ Origin.X, Origin.Y, Size.X,Size.Y };
+		SDL_RenderFillRect(m_Renderer, &rect);
 	}
 }
