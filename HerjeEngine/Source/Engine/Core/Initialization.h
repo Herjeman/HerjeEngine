@@ -1,6 +1,5 @@
 #pragma once
 #include "HerjeEngine.h"
-#include "Engine/ECS/HEEntityComponentSystem.h"
 #include <SDL3/SDL.h>
 
 namespace HerjeEngine
@@ -19,7 +18,6 @@ namespace HerjeEngine
 
 	void InitializeInternal()
 	{
-		HEEntityComponentSystem::Get();
 	}
 
 	void ShutDownDependencies()
