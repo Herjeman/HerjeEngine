@@ -10,9 +10,6 @@ public:
 
 	void PreLoop() override
 	{
-		m_Runtime = 0;
-		m_NextLog = 20000;
-
 		const auto Entity = m_ECS->AddEntity();
 		HerjeEngine::LocationComponent Loc = { HerjeEngine::Vector2{200, 300} };
 		HerjeEngine::RectangleComponent Rec = { HerjeEngine::Vector2{20, 30} };
@@ -23,31 +20,19 @@ public:
 
 	void Update(float deltaTime) override
 	{
-		m_Runtime += static_cast<int>(deltaTime);
-		if (m_Runtime >= 250000)
-		{
-			std::string msg = "Shutting down after: ";
-			msg.append(std::to_string(m_Runtime));
-			msg.append(" cycles.");
-			HE_LOG_INFO(msg);
-			Shutdown();
-			return;
-		}
-		if (m_Runtime >= m_NextLog)
-		{
-			HE_LOG_TRACE("Running...");
-			m_NextLog += 20000;
-		}
+		m_TotalRuntime += deltaTime;
 	}
 
 	void Clean() override
 	{
-		m_Runtime = 0;
+		std::string msg = "Shutting down after: ";
+		msg.append(std::to_string(m_TotalRuntime));
+		msg.append(" seconds.");
+		HE_LOG_CORE_INFO(msg);
 	}
 
 private:
-	int m_Runtime = 0;
-	int m_NextLog = 0;
+	float m_TotalRuntime = 0.0f;
 };
 
 HerjeEngine::Application* HerjeEngine::CreateApplication()

@@ -4,6 +4,7 @@
 #include "Engine/ECS/HEECS.h"
 #include "Engine/Input/InputSystem.h"
 #include "Engine/Rendering/HERenderer2D.h"
+#include "SDL3/SDL_timer.h"
 
 namespace HerjeEngine
 {
@@ -36,11 +37,15 @@ namespace HerjeEngine
 
 		while (m_ShouldRun)
 		{
+			float deltaTime = GetFrameTime();
+
 			m_Renderer->PreRender();
 			HandleInput();
-			Update(1.0f);
+			Update(deltaTime);
 			m_ECS->ProcessSystems(*this);
 			m_Renderer->PostRender();
+
+			m_CurrentCycle++;
 		}
 
 		Clean();
@@ -54,5 +59,21 @@ namespace HerjeEngine
 	void Application::HandleInput()
 	{
 		InputSystem::Get().ProcessInput();
+	}
+
+	float Application::GetFrameTime()
+	{
+		uint64_t CurrentRuntime = SDL_GetTicks();
+		int frameTime = CurrentRuntime - m_StartOfCycleRuntime;
+		m_StartOfCycleRuntime = CurrentRuntime;
+
+#ifdef HE_CONFIGURATION_DEBUG
+		if (frameTime > HE_MAX_DEBUG_CYCLETIME)
+		{
+			frameTime = HE_MAX_DEBUG_CYCLETIME;
+		}
+#endif // HE_CONFIGURATION_DEBUG
+
+		return frameTime * 0.001;
 	}
 }
