@@ -27,17 +27,17 @@ namespace HerjeEngine {
 		Vector2 Size;
 	};
 
-	class HE_API HEEntityManager
+	class HEEntityManager
 	{
 	public:
 		std::array<Entity, ECS_MAXIMUM_ENTITIES> Entities;
 	};
 
 	template <typename ComponentType>
-	class HE_API HEComponentManager
+	class HEComponentManager
 	{
 	public:
-		void SetComponent(const EntityID& ID, const ComponentType& NewComponent, HEEntityManager& EntityManager)
+		HE_API void SetComponent(const EntityID& ID, const ComponentType& NewComponent, HEEntityManager& EntityManager)
 		{
 			if (!HEEntityComponentSystem::IsValidEntityIndex(ID))
 			{
@@ -51,8 +51,8 @@ namespace HerjeEngine {
 		EntitySignature ComponentSignature = EntitySignature::UNDEFINED;
 	};
 
-	template class HE_API HEComponentManager<LocationComponent>;
-	template class HE_API HEComponentManager<RectangleComponent>;
+	template class HEComponentManager<LocationComponent>;
+	template class HEComponentManager<RectangleComponent>;
 
 	class DrawRectangleSystem
 	{
@@ -64,7 +64,7 @@ namespace HerjeEngine {
 		Entity m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::RECTANGLE;
 	};
 
-	class HE_API HEEntityComponentSystem
+	class HEEntityComponentSystem
 	{
 	public:
 		HEEntityComponentSystem()
@@ -78,7 +78,7 @@ namespace HerjeEngine {
 		HEComponentManager<RectangleComponent> RectangleComponents;
 
 	public:
-		const EntityID AddEntity()
+		HE_API const EntityID AddEntity()
 		{
 			m_HighestEntityIndex++;
 			if (m_HighestEntityIndex >= ECS_MAXIMUM_ENTITIES)
@@ -94,7 +94,7 @@ namespace HerjeEngine {
 			return m_HighestEntityIndex;
 		}
 
-		void DisableEntity(EntityID& ID)
+		HE_API void DisableEntity(EntityID& ID)
 		{
 			if (!IsValidEntityIndex(ID))
 			{

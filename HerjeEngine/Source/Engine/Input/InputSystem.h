@@ -14,13 +14,13 @@ namespace HerjeEngine
 		InputEventID EventSignature = InputEventID::QUIT;
 	};
 
-	class HE_API InputSystem
+	class InputSystem
 	{
 	public:
 		InputSystem(const InputSystem&) = delete;
 		InputSystem& operator= (const InputSystem&) = delete;
 
-		static InputSystem& Get();
+		HE_API static InputSystem& Get();
 		void ProcessInput();
 
 		EventDispatcher<InputEvent>& GetInputEventDispatcher() { return m_InputEventDispatcher; }
