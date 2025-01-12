@@ -29,7 +29,7 @@ namespace HerjeEngine {
 	private:
 		void HandleInput();
 		bool m_ShouldRun = true;
-		int m_StartOfCycleRuntime = 0;
+		uint64_t m_StartOfCycleRuntime = 0;
 		uint64_t m_CurrentCycle = 0;
 
 		float GetFrameTime();
