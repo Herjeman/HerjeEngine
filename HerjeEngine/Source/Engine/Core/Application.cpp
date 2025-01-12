@@ -64,7 +64,7 @@ namespace HerjeEngine
 	float Application::GetFrameTime()
 	{
 		uint64_t CurrentRuntime = SDL_GetTicks();
-		int frameTime = CurrentRuntime - m_StartOfCycleRuntime;
+		uint64_t frameTime = CurrentRuntime - m_StartOfCycleRuntime;
 		m_StartOfCycleRuntime = CurrentRuntime;
 
 #ifdef HE_CONFIGURATION_DEBUG
