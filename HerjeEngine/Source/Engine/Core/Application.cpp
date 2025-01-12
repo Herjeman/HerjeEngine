@@ -74,6 +74,6 @@ namespace HerjeEngine
 		}
 #endif // HE_CONFIGURATION_DEBUG
 
-		return frameTime * 0.001;
+		return frameTime * 0.001f;
 	}
 }
