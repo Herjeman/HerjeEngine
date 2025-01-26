@@ -10,3 +10,4 @@
 #include <array>
 
 #include "Engine/Log/Log.h"
+#include "Engine/Input/HEKeycodes.h"
