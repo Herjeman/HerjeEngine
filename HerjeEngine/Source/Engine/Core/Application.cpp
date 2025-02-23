@@ -37,11 +37,11 @@ namespace HerjeEngine
 
 		while (m_ShouldRun)
 		{
-			float deltaTime = GetFrameTime();
+			m_CurrentDeltaTime = GetFrameTime();
 
 			m_Renderer->PreRender();
 			HandleInput();
-			Update(deltaTime);
+			Update(m_CurrentDeltaTime);
 			m_ECS->ProcessSystems(*this);
 			m_Renderer->PostRender();
 

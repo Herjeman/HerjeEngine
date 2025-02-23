@@ -3,22 +3,29 @@
 #include "Engine/Rendering/HERenderer2D.h"
 #include "Engine/Core/Application.h"
 
-void HerjeEngine::DrawRectangleSystem::Process(const HEEntityComponentSystem& ECS, const Application& application)
+void HerjeEngine::ComponentSystem::TryProcess(HEEntityComponentSystem& ECS, const Application& application)
 {
-	auto* renderer = application.GetRenderer();
-	auto& Entities = ECS.EntityManager.Entities;
-	auto& Locations = ECS.LocationComponents.Components;
-	auto& Rectangles = ECS.RectangleComponents.Components;
-
-	for (size_t i = 0; i < ECS_MAXIMUM_ENTITIES; i++)
+	for (size_t entityIndex = 0; entityIndex < ECS_MAXIMUM_ENTITIES; entityIndex++)
 	{
-		const auto& Entity = Entities[i];
-		if (!EntityMatchesSignature(Entity))
+		const auto& entity = ECS.EntityManager.Entities[entityIndex];
+		if (!EntityMatchesSignature(entity))
 		{
 			continue;
 		}
-		const Vector2& Location = Locations[i].Location;
-		const Vector2& Size = Rectangles[i].Size;
-		renderer->RenderSquare(Location, Size);
+		Process(entityIndex, ECS, application);
 	}
+}
+
+void HerjeEngine::DrawRectangleSystem::Process(const size_t entityIndex, HEEntityComponentSystem& ECS, const Application& application)
+{
+	const Vector2& location = ECS.LocationComponents.Components[entityIndex].Location;
+	const Vector2& size = ECS.RectangleComponents.Components[entityIndex].Size;
+	application.GetRenderer()->RenderSquare(location, size);
+}
+
+void HerjeEngine::MovementSystem::Process(const size_t entityIndex, HEEntityComponentSystem& ECS, const Application& application)
+{
+	Vector2& location = ECS.LocationComponents.Components[entityIndex].Location;
+	Vector2& velocity = ECS.MovementComponents.Components[entityIndex].Velocity;
+	location += velocity * application.GetDeltaTime();
 }

@@ -84,7 +84,7 @@ namespace HerjeEngine
 			{
 				for (auto& inputAction : InputActions)
 				{
-					inputAction.ProcessInputEvent(event);
+					bool consumedInput = inputAction.ProcessInputEvent(event);
 				}
 			}
 		}
@@ -100,15 +100,17 @@ namespace HerjeEngine
 		Callback = callback;
 	}
 
-	void InputAction::ProcessInputEvent(const SDL_Event& Event)
+	bool InputAction::ProcessInputEvent(const SDL_Event& Event)
 	{
+		bool consumedInput = false;
+
 		// Update Action state
 		bool keyPressed = Event.type == SDL_EVENT_KEY_DOWN;
-
 		std::unordered_map<HE_KeyCode, bool>::iterator KeyIndex = InputSignature.find(Event.key.keysym.sym);
 		if (KeyIndex != InputSignature.end())
 		{
 			InputSignature.at(Event.key.keysym.sym) = keyPressed;
+			consumedInput = ConsumeInput && keyPressed;
 		}
 
 		// Evaluate trigger conditions
@@ -126,11 +128,12 @@ namespace HerjeEngine
 		if (newState == State)
 		{
 			// Don't propagate unchanged state
-			return;
+			return consumedInput;
 		}
 		State = newState;
 		InputActionCallbackPayload Payload{ State };
 		Callback(Payload);
+		return consumedInput;
 	}
 }
 

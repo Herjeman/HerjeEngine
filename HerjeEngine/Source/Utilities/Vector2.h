@@ -10,19 +10,33 @@ namespace HerjeEngine {
 		Vector2() : X(0), Y(0) {}
 		Vector2(float x, float y) : X(x), Y(y) {}
 
-		Vector2 operator+ (const Vector2& vec)
+		Vector2 operator+ (const Vector2& other)
 		{
 			Vector2 out;
-			out.X = this->X + vec.X;
-			out.Y = this->Y + vec.Y;
+			out.X = this->X + other.X;
+			out.Y = this->Y + other.Y;
 			return out;
 		}
 
-		Vector2 operator- (const Vector2& vec)
+		Vector2 operator+= (Vector2& other)
+		{
+			this->X += other.X;
+			this->Y += other.Y;
+			return *this;
+		}
+
+		Vector2 operator-= (const Vector2& other)
+		{
+			this->X -= other.X;
+			this->Y -= other.Y;
+			return *this;
+		}
+
+		Vector2 operator- (const Vector2& other)
 		{
 			Vector2 out;
-			out.X = this->X - vec.X;
-			out.Y = this->Y - vec.Y;
+			out.X = this->X - other.X;
+			out.Y = this->Y - other.Y;
 			return out;
 		}
 

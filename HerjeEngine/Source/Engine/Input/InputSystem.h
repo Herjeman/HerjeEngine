@@ -33,11 +33,12 @@ namespace HerjeEngine
 	struct InputAction
 	{
 		InputAction(const std::vector<HE_KeyCode>& keys, const InputActionCallback& callback);
-		void ProcessInputEvent(const SDL_Event& Event);
+		bool ProcessInputEvent(const SDL_Event& Event);
 
 		EInputActionState State = EInputActionState::CANCELED;
 		std::unordered_map<HE_KeyCode, bool> InputSignature;
 		InputActionCallback Callback;
+		bool ConsumeInput = false;
 	};
 
 	struct InputActionHandle

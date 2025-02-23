@@ -13,6 +13,7 @@ namespace HerjeEngine {
 
 		HE_API void Run();
 		HE_API class HERenderer2D* GetRenderer() const;
+		HE_API inline const float GetDeltaTime() const { return m_CurrentDeltaTime; }
 
 	protected:
 		// ----------- Game Accessors
@@ -31,6 +32,7 @@ namespace HerjeEngine {
 		bool m_ShouldRun = true;
 		uint64_t m_StartOfCycleRuntime = 0;
 		uint64_t m_CurrentCycle = 0;
+		float m_CurrentDeltaTime = 0.0f;
 
 		float GetFrameTime();
 

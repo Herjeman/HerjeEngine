@@ -12,12 +12,14 @@ public:
 
 	void PreLoop() override
 	{
-		const auto Entity = m_ECS->AddEntity();
-		HerjeEngine::LocationComponent Loc = { HerjeEngine::Vector2{200, 300} };
-		HerjeEngine::RectangleComponent Rec = { HerjeEngine::Vector2{20, 30} };
+		const auto entity = m_ECS->AddEntity();
+		HerjeEngine::LocationComponent loc = { HerjeEngine::Vector2{200, 300} };
+		HerjeEngine::RectangleComponent rec = { HerjeEngine::Vector2{20, 30} };
+		HerjeEngine::MovementComponent mov = { HerjeEngine::Vector2{5, 0} };
 
-		m_ECS->LocationComponents.SetComponent(Entity, Loc, m_ECS->EntityManager);
-		m_ECS->RectangleComponents.SetComponent(Entity, Rec, m_ECS->EntityManager);
+		m_ECS->LocationComponents.SetComponent(entity, loc, m_ECS->EntityManager);
+		m_ECS->RectangleComponents.SetComponent(entity, rec, m_ECS->EntityManager);
+		m_ECS->MovementComponents.SetComponent(entity, mov, m_ECS->EntityManager);
 
 		HerjeEngine::InputSystem& inputSystem = HerjeEngine::InputSystem::Get();
 		std::vector<HE_KeyCode> inputs{ HE_KEY_SPACE };

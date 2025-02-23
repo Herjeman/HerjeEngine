@@ -11,10 +11,11 @@ namespace HerjeEngine {
 
 	enum EntitySignature : Entity
 	{
-		UNDEFINED,
-		IS_ACTIVE,
-		LOCATION,
-		RECTANGLE
+		UNDEFINED = 0,
+		IS_ACTIVE = 1 << 0,
+		LOCATION = 1 << 1,
+		RECTANGLE = 1 << 2,
+		MOVEMENT = 1 << 3
 	};
 
 	struct HE_API LocationComponent
@@ -25,6 +26,11 @@ namespace HerjeEngine {
 	struct HE_API RectangleComponent
 	{
 		Vector2 Size;
+	};
+
+	struct HE_API MovementComponent
+	{
+		Vector2 Velocity;
 	};
 
 	class HEEntityManager
@@ -53,15 +59,39 @@ namespace HerjeEngine {
 
 	template class HEComponentManager<LocationComponent>;
 	template class HEComponentManager<RectangleComponent>;
+	template class HEComponentManager<MovementComponent>;
 
-	class DrawRectangleSystem
+	class ComponentSystem
 	{
 	public:
-		void Process(const class HEEntityComponentSystem& ECS, const class Application& application);
+		void TryProcess(class HEEntityComponentSystem& ECS, const class Application& application);
 
-	private:
+	protected:
+		virtual void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) = 0;
 		bool EntityMatchesSignature(const Entity& Entity) const { return m_EntitySignature == (Entity & m_EntitySignature); }
-		Entity m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::RECTANGLE;
+		Entity m_EntitySignature = EntitySignature::UNDEFINED;
+	};
+
+	class DrawRectangleSystem : public ComponentSystem
+	{
+	public:
+		DrawRectangleSystem()
+		{
+			m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::RECTANGLE;
+		}
+
+		void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
+	};
+
+	class MovementSystem : public ComponentSystem
+	{
+	public:
+		MovementSystem()
+		{
+			m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::MOVEMENT;
+		}
+
+		void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
 	};
 
 	class HEEntityComponentSystem
@@ -69,17 +99,21 @@ namespace HerjeEngine {
 	public:
 		HEEntityComponentSystem()
 		{
+			// Set up Component Managers
 			LocationComponents.ComponentSignature = EntitySignature::LOCATION;
 			RectangleComponents.ComponentSignature = EntitySignature::RECTANGLE;
+			MovementComponents.ComponentSignature = EntitySignature::MOVEMENT;
 		}
 
 		HEEntityManager EntityManager = {};
 		HEComponentManager<LocationComponent> LocationComponents;
 		HEComponentManager<RectangleComponent> RectangleComponents;
+		HEComponentManager<MovementComponent> MovementComponents;
 
 	public:
 		HE_API const EntityID AddEntity()
 		{
+			// Add new Entity
 			m_HighestEntityIndex++;
 			if (m_HighestEntityIndex >= ECS_MAXIMUM_ENTITIES)
 			{
@@ -88,8 +122,11 @@ namespace HerjeEngine {
 				m_HighestEntityIndex = 0;
 			}
 			EntityManager.Entities[m_HighestEntityIndex] = EntitySignature::IS_ACTIVE;
+
+			// Add new Component entries for Entity
 			LocationComponents.Components[m_HighestEntityIndex] = {};
 			RectangleComponents.Components[m_HighestEntityIndex] = {};
+			MovementComponents.Components[m_HighestEntityIndex] = {};
 
 			return m_HighestEntityIndex;
 		}
@@ -105,7 +142,8 @@ namespace HerjeEngine {
 
 		void ProcessSystems(const class Application& application)
 		{
-			m_RectangleSystem.Process(*this, application);
+			m_RectangleSystem.TryProcess(*this, application);
+			m_MovementSystem.TryProcess(*this, application);
 		}
 
 		[[nodiscard]] static const bool IsValidEntityIndex(const EntityID& Index)
@@ -121,6 +159,7 @@ namespace HerjeEngine {
 	private:
 		EntityID m_HighestEntityIndex = 0;
 		DrawRectangleSystem m_RectangleSystem;
+		MovementSystem m_MovementSystem;
 	};
 }
 
