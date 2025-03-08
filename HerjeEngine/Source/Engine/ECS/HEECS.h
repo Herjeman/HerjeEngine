@@ -43,7 +43,7 @@ namespace HerjeEngine {
 	class HEComponentManager
 	{
 	public:
-		HE_API void SetComponent(const EntityID& ID, const ComponentType& NewComponent, HEEntityManager& EntityManager)
+		HE_API void SetComponentForEntity(const EntityID& ID, const ComponentType& NewComponent, HEEntityManager& EntityManager)
 		{
 			if (!HEEntityComponentSystem::IsValidEntityIndex(ID))
 			{
@@ -52,6 +52,14 @@ namespace HerjeEngine {
 
 			Components[ID] = NewComponent;
 			EntityManager.Entities[ID] |= ComponentSignature;
+		}
+		HE_API ComponentType* GetComponentForEntity(const EntityID& ID)
+		{
+			if (!HEEntityComponentSystem::IsValidEntityIndex(ID))
+			{
+				return nullptr;
+			}
+			return &Components[ID];
 		}
 		std::array<ComponentType, ECS_MAXIMUM_ENTITIES> Components;
 		EntitySignature ComponentSignature = EntitySignature::UNDEFINED;

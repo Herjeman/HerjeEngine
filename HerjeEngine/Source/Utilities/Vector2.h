@@ -61,6 +61,12 @@ namespace HerjeEngine {
 		inline static float GetAngleBetweenNormalized(const Vector2& A, const Vector2& B);
 
 		inline static float DotProduct(const Vector2& A, const Vector2& B);
+
+		inline static Vector2 Up() { return Vector2{ 0.0f, -1.0f }; }
+		inline static Vector2 Down() { return Vector2{ 0.0f, 1.0f }; }
+		inline static Vector2 Left() { return Vector2{ -1.0f, 0.0f }; }
+		inline static Vector2 Right() { return Vector2{ 1.0f, 0.0f }; }
+		inline static Vector2 Zero() { return Vector2{ 0.0f, 0.0f }; }
 	};
 }
 
