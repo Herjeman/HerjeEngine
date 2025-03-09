@@ -9,7 +9,7 @@ typedef uint16_t EntityID;
 
 namespace HerjeEngine {
 
-	enum EntitySignature : Entity
+	enum EEntitySignature : Entity
 	{
 		UNDEFINED = 0,
 		IS_ACTIVE = 1 << 0,
@@ -62,7 +62,7 @@ namespace HerjeEngine {
 			return &Components[ID];
 		}
 		std::array<ComponentType, ECS_MAXIMUM_ENTITIES> Components;
-		EntitySignature ComponentSignature = EntitySignature::UNDEFINED;
+		EEntitySignature ComponentSignature = EEntitySignature::UNDEFINED;
 	};
 
 	template class HEComponentManager<LocationComponent>;
@@ -75,9 +75,9 @@ namespace HerjeEngine {
 		void TryProcess(class HEEntityComponentSystem& ECS, const class Application& application);
 
 	protected:
-		virtual void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) = 0;
+		virtual void Process(const EntityID entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) = 0;
 		bool EntityMatchesSignature(const Entity& Entity) const { return m_EntitySignature == (Entity & m_EntitySignature); }
-		Entity m_EntitySignature = EntitySignature::UNDEFINED;
+		Entity m_EntitySignature = EEntitySignature::UNDEFINED;
 	};
 
 	class DrawRectangleSystem : public ComponentSystem
@@ -85,10 +85,10 @@ namespace HerjeEngine {
 	public:
 		DrawRectangleSystem()
 		{
-			m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::RECTANGLE;
+			m_EntitySignature = EEntitySignature::IS_ACTIVE | EEntitySignature::LOCATION | EEntitySignature::RECTANGLE;
 		}
 
-		void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
+		void Process(const EntityID entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
 	};
 
 	class MovementSystem : public ComponentSystem
@@ -96,10 +96,10 @@ namespace HerjeEngine {
 	public:
 		MovementSystem()
 		{
-			m_EntitySignature = EntitySignature::IS_ACTIVE | EntitySignature::LOCATION | EntitySignature::MOVEMENT;
+			m_EntitySignature = EEntitySignature::IS_ACTIVE | EEntitySignature::LOCATION | EEntitySignature::MOVEMENT;
 		}
 
-		void Process(const size_t entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
+		void Process(const EntityID entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
 	};
 
 	class HEEntityComponentSystem
@@ -108,9 +108,9 @@ namespace HerjeEngine {
 		HEEntityComponentSystem()
 		{
 			// Set up Component Managers
-			LocationComponents.ComponentSignature = EntitySignature::LOCATION;
-			RectangleComponents.ComponentSignature = EntitySignature::RECTANGLE;
-			MovementComponents.ComponentSignature = EntitySignature::MOVEMENT;
+			LocationComponents.ComponentSignature = EEntitySignature::LOCATION;
+			RectangleComponents.ComponentSignature = EEntitySignature::RECTANGLE;
+			MovementComponents.ComponentSignature = EEntitySignature::MOVEMENT;
 		}
 
 		HEEntityManager EntityManager = {};
@@ -129,7 +129,7 @@ namespace HerjeEngine {
 				HE_CORE_ASSERT(m_HighestEntityIndex <= ECS_MAXIMUM_ENTITIES, "ECS Entity limit reached");
 				m_HighestEntityIndex = 0;
 			}
-			EntityManager.Entities[m_HighestEntityIndex] = EntitySignature::IS_ACTIVE;
+			EntityManager.Entities[m_HighestEntityIndex] = EEntitySignature::IS_ACTIVE;
 
 			// Add new Component entries for Entity
 			LocationComponents.Components[m_HighestEntityIndex] = {};
@@ -145,17 +145,18 @@ namespace HerjeEngine {
 			{
 				return;
 			}
-			EntityManager.Entities[ID] = EntitySignature::UNDEFINED;
+			EntityManager.Entities[ID] = EEntitySignature::UNDEFINED;
 		}
 
 		void ProcessSystems(const class Application& application)
 		{
-			m_RectangleSystem.TryProcess(*this, application);
 			m_MovementSystem.TryProcess(*this, application);
+			m_RectangleSystem.TryProcess(*this, application);
 		}
 
 		[[nodiscard]] static const bool IsValidEntityIndex(const EntityID& Index)
 		{
+			// NOTE: Consider using the HighestEntityIndex here, or at least adding a nonstatic option for that
 			if (Index < 0 || Index >= ECS_MAXIMUM_ENTITIES)
 			{
 				HE_CORE_ASSERT((0 <= Index && Index < ECS_MAXIMUM_ENTITIES), "Invalid Entity ID");
@@ -163,6 +164,8 @@ namespace HerjeEngine {
 			}
 			return true;
 		}
+
+		const EntityID GetCurrentHighestEntityID() const { return m_HighestEntityIndex; }
 
 	private:
 		EntityID m_HighestEntityIndex = 0;
