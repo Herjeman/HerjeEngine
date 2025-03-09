@@ -39,6 +39,7 @@ namespace HerjeEngine
 		inline void QueueEvent(const EventType event) { m_QueuedEvents.push_back(event); }
 		void DispatchEvent(const EventType& event) const;
 		void DispatchQueuedEvents();
+		bool HasListeners() const { return !m_Listeners.empty(); }
 
 	protected:
 		void AddListener(const EventListener<EventType>* listener, CallbackFunction function);
