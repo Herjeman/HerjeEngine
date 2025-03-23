@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Core.h"
 
+// THIS IS A COMMENT
+
 namespace HerjeEngine
 {
 	template<typename EventType>
