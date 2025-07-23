@@ -13,7 +13,7 @@ namespace HerjeEngine
 		m_Window = std::make_unique<HEWindow>();
 		HE_CORE_ASSERT(m_Window, "HE Window creation failed");
 
-		m_Renderer = std::make_unique<HERenderer2D>(m_Window.get()->GetWindow());
+		m_Renderer = std::make_unique<HERenderer2D>(m_Window.get());
 		HE_CORE_ASSERT(m_Renderer, "HERenderer creation failed");
 
 		m_ECS = std::make_unique<HEEntityComponentSystem>();
@@ -39,11 +39,11 @@ namespace HerjeEngine
 		{
 			m_CurrentDeltaTime = GetFrameTime();
 
-			m_Renderer->PreRender();
 			HandleInput();
 			Update(m_CurrentDeltaTime);
 			m_ECS->ProcessSystems(*this);
-			m_Renderer->PostRender();
+
+			m_Renderer->Render();
 
 			m_CurrentCycle++;
 		}

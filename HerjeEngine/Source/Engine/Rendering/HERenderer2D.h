@@ -1,21 +1,38 @@
 #pragma once
+#include "Engine/ECS/HEECS.h"
 
 namespace HerjeEngine
 {
-	class HERenderer2D
+
+	struct HE_API RenderRectangleComponent
+	{
+		float xPos = 0;
+		float yPos = 0;
+		float Width = 1;
+		float Height = 1;
+	};
+
+	class HE_API HERenderer2D
 	{
 	public:
-		HERenderer2D(struct SDL_Window* window);
+		HERenderer2D(class HEWindow* window);
 		~HERenderer2D();
 
+		void Render();
+
+		RenderRectangleComponent& AddRectangle(RenderRectangleComponent inRect);
+
+	private:
 		void PreRender();
 		void PostRender();
 
+		void RenderRectangles();
 		void RenderSquare(const Vector2& Origin, const Vector2& Size);
 
 	private:
 		struct SDL_Renderer* m_Renderer;
-	};	
+		std::vector<RenderRectangleComponent> m_Rectangles;
+	};
 }
 
 

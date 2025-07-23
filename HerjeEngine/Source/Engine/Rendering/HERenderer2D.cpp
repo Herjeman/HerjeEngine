@@ -1,14 +1,18 @@
 #include "HEPreCompiled.h"
 #include <SDL3/SDL_render.h>
+#include <random>
+
 #include "Engine/Core/HEWindow.h"
 #include "HERenderer2D.h"
 
 
+
 namespace HerjeEngine
 {
-	HERenderer2D::HERenderer2D(SDL_Window* window)
+	HERenderer2D::HERenderer2D(HEWindow* window)
 	{
-		m_Renderer = SDL_CreateRenderer(window, NULL);
+		// Should we create and destroy the renderer here? Why not just let the window own it?
+		m_Renderer = SDL_CreateRenderer(window->GetWindow(), NULL);
 		HE_CORE_ASSERT(m_Renderer, SDL_GetError());
 	}
 
@@ -16,6 +20,20 @@ namespace HerjeEngine
 	{
 		SDL_DestroyRenderer(m_Renderer);
 	}
+
+	void HERenderer2D::Render()
+	{
+		PreRender();
+		RenderRectangles();
+		PostRender();
+	}
+
+	RenderRectangleComponent& HERenderer2D::AddRectangle(RenderRectangleComponent inRect)
+	{
+		m_Rectangles.push_back(inRect);
+		return m_Rectangles.back();
+	}
+
 
 	void HERenderer2D::PreRender()
 	{
@@ -26,6 +44,24 @@ namespace HerjeEngine
 	void HERenderer2D::PostRender()
 	{
 		SDL_RenderPresent(m_Renderer);
+	}
+
+	void HERenderer2D::RenderRectangles()
+	{
+		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+		std::vector<SDL_FRect> rectsToRender;
+		rectsToRender.reserve(m_Rectangles.size());
+
+		for (const auto& rect : m_Rectangles)
+		{
+			rectsToRender.push_back({ rect.xPos, rect.yPos, rect.Width, rect.Height });
+		}
+
+		if (SDL_RenderFillRects(m_Renderer, &rectsToRender[0], static_cast<int>(rectsToRender.size() - 1)) < 0)
+		{
+			const char* error = SDL_GetError();
+			HE_CORE_ASSERT(false, error);
+		}
 	}
 
 	void HERenderer2D::RenderSquare(const Vector2& Origin, const Vector2& Size)

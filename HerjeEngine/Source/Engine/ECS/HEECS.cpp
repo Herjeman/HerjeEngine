@@ -16,13 +16,6 @@ void HerjeEngine::ComponentSystem::TryProcess(HEEntityComponentSystem& ECS, cons
 	}
 }
 
-void HerjeEngine::DrawRectangleSystem::Process(const EntityID entityIndex, HEEntityComponentSystem& ECS, const Application& application)
-{
-	const Vector2& location = ECS.LocationComponents.Components[entityIndex].Location;
-	const Vector2& size = ECS.RectangleComponents.Components[entityIndex].Size;
-	application.GetRenderer()->RenderSquare(location, size);
-}
-
 void HerjeEngine::MovementSystem::Process(const EntityID entityIndex, HEEntityComponentSystem& ECS, const Application& application)
 {
 	Vector2& location = ECS.LocationComponents.Components[entityIndex].Location;

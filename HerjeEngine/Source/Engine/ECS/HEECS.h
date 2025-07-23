@@ -23,11 +23,6 @@ namespace HerjeEngine {
 		Vector2 Location;
 	};
 
-	struct HE_API RectangleComponent
-	{
-		Vector2 Size;
-	};
-
 	struct HE_API MovementComponent
 	{
 		Vector2 Velocity;
@@ -66,7 +61,6 @@ namespace HerjeEngine {
 	};
 
 	template class HEComponentManager<LocationComponent>;
-	template class HEComponentManager<RectangleComponent>;
 	template class HEComponentManager<MovementComponent>;
 
 	class ComponentSystem
@@ -78,17 +72,6 @@ namespace HerjeEngine {
 		virtual void Process(const EntityID entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) = 0;
 		bool EntityMatchesSignature(const Entity& Entity) const { return m_EntitySignature == (Entity & m_EntitySignature); }
 		Entity m_EntitySignature = EEntitySignature::UNDEFINED;
-	};
-
-	class DrawRectangleSystem : public ComponentSystem
-	{
-	public:
-		DrawRectangleSystem()
-		{
-			m_EntitySignature = EEntitySignature::IS_ACTIVE | EEntitySignature::LOCATION | EEntitySignature::RECTANGLE;
-		}
-
-		void Process(const EntityID entityIndex, class HEEntityComponentSystem& ECS, const class Application& application) override;
 	};
 
 	class MovementSystem : public ComponentSystem
@@ -109,13 +92,11 @@ namespace HerjeEngine {
 		{
 			// Set up Component Managers
 			LocationComponents.ComponentSignature = EEntitySignature::LOCATION;
-			RectangleComponents.ComponentSignature = EEntitySignature::RECTANGLE;
 			MovementComponents.ComponentSignature = EEntitySignature::MOVEMENT;
 		}
 
 		HEEntityManager EntityManager = {};
 		HEComponentManager<LocationComponent> LocationComponents;
-		HEComponentManager<RectangleComponent> RectangleComponents;
 		HEComponentManager<MovementComponent> MovementComponents;
 
 	public:
@@ -133,7 +114,6 @@ namespace HerjeEngine {
 
 			// Add new Component entries for Entity
 			LocationComponents.Components[m_HighestEntityIndex] = {};
-			RectangleComponents.Components[m_HighestEntityIndex] = {};
 			MovementComponents.Components[m_HighestEntityIndex] = {};
 
 			return m_HighestEntityIndex;
@@ -151,7 +131,6 @@ namespace HerjeEngine {
 		void ProcessSystems(const class Application& application)
 		{
 			m_MovementSystem.TryProcess(*this, application);
-			m_RectangleSystem.TryProcess(*this, application);
 		}
 
 		[[nodiscard]] static const bool IsValidEntityIndex(const EntityID& Index)
@@ -169,7 +148,6 @@ namespace HerjeEngine {
 
 	private:
 		EntityID m_HighestEntityIndex = 0;
-		DrawRectangleSystem m_RectangleSystem;
 		MovementSystem m_MovementSystem;
 	};
 }
