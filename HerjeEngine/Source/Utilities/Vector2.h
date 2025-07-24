@@ -18,7 +18,7 @@ namespace HerjeEngine {
 			return out;
 		}
 
-		Vector2 operator+= (Vector2& other)
+		Vector2 operator+= (const Vector2& other)
 		{
 			this->X += other.X;
 			this->Y += other.Y;

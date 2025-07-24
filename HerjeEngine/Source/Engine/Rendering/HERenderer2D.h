@@ -3,7 +3,6 @@
 
 namespace HerjeEngine
 {
-
 	struct HE_API RenderRectangleComponent
 	{
 		float xPos = 0;
@@ -12,7 +11,7 @@ namespace HerjeEngine
 		float Height = 1;
 	};
 
-	class HE_API HERenderer2D
+	class HERenderer2D
 	{
 	public:
 		HERenderer2D(class HEWindow* window);
@@ -20,7 +19,7 @@ namespace HerjeEngine
 
 		void Render();
 
-		RenderRectangleComponent& AddRectangle(RenderRectangleComponent inRect);
+		HE_API RenderRectangleComponent& AddRectangle(RenderRectangleComponent inRect);
 
 	private:
 		void PreRender();
