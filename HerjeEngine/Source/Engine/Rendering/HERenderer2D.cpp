@@ -28,10 +28,9 @@ namespace HerjeEngine
 		PostRender();
 	}
 
-	RenderRectangleComponent& HERenderer2D::AddRectangle(RenderRectangleComponent inRect)
+	RenderRectangleComponent& HERenderer2D::AddRectangle(const EntityID ownerID, const RenderRectangleComponent& inRect)
 	{
-		m_Rectangles.push_back(inRect);
-		return m_Rectangles.back();
+		return m_RectangleRegistry.AddComponent(ownerID, inRect);
 	}
 
 
@@ -48,11 +47,17 @@ namespace HerjeEngine
 
 	void HERenderer2D::RenderRectangles()
 	{
-		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
-		std::vector<SDL_FRect> rectsToRender;
-		rectsToRender.reserve(m_Rectangles.size());
+		if (m_RectangleRegistry.Count() == 0)
+		{
+			return;
+		}
 
-		for (const auto& rect : m_Rectangles)
+		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+
+		std::vector<SDL_FRect> rectsToRender;
+		rectsToRender.reserve(m_RectangleRegistry.Count());
+
+		for (const auto& rect : m_RectangleRegistry.GetComponents())
 		{
 			rectsToRender.push_back({ rect.xPos, rect.yPos, rect.Width, rect.Height });
 		}

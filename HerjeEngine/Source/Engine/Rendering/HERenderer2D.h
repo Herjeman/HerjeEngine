@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/ECS/HEECS.h"
+#include "Engine/ECS/ComponentRegistry.h"
 
 namespace HerjeEngine
 {
@@ -19,7 +19,7 @@ namespace HerjeEngine
 
 		void Render();
 
-		HE_API RenderRectangleComponent& AddRectangle(RenderRectangleComponent inRect);
+		HE_API RenderRectangleComponent& AddRectangle(const EntityID ownerID, const RenderRectangleComponent& inRect);
 
 	private:
 		void PreRender();
@@ -30,7 +30,7 @@ namespace HerjeEngine
 
 	private:
 		struct SDL_Renderer* m_Renderer;
-		std::vector<RenderRectangleComponent> m_Rectangles;
+		HEComponentRegistrySimple<RenderRectangleComponent> m_RectangleRegistry;
 	};
 }
 

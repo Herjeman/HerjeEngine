@@ -44,7 +44,7 @@ public:
 			rect.yPos = static_cast<float>(yDistribution(generator));
 			rect.Width = static_cast<float>(sizeXDistribution(generator));
 			rect.Height = rect.Width;
-			rectangleRenderer->AddRectangle(rect);
+			rectangleRenderer->AddRectangle(i, rect);
 		}
 	}
 
