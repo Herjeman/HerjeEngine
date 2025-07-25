@@ -20,7 +20,7 @@ namespace HerjeEngine
 		HE_CORE_ASSERT(m_Renderer, "HERenderer creation failed");
 
 		m_ECS = std::make_unique<HEEntityComponentSystem>();
-		HE_CORE_ASSERT(m_ECS, "ECS freation failed");
+		HE_CORE_ASSERT(m_ECS, "ECS creation failed");
 	}
 
 	Application::~Application() {}
@@ -38,25 +38,33 @@ namespace HerjeEngine
 			},
 			InputSystem::Get().GetInputEventDispatcher());
 
+		const float loopStartTime = SDL_GetTicks();
+		std::string msg = "Starting main loop after: ";
+		msg.append(std::to_string(loopStartTime * MILLISECOND_MULTIPLIER));
+		msg.append(" seconds.\n");
+		HE_LOG_CORE_INFO(msg);
+
 		while (m_ShouldRun)
 		{
 			m_CurrentDeltaTime = GetFrameTime();
+			m_Renderer->PreRender();
 
 			HandleInput();
 			Update(m_CurrentDeltaTime);
-			m_ECS->ProcessSystems(*this);
+			Draw();
 
-			m_Renderer->Render();
+			m_Renderer->PostRender();
 			m_CurrentCycle++;
 		}
 
-		const float totalRuntime = SDL_GetTicks() * MILLISECOND_MULTIPLIER;
+		const float totalRuntime = SDL_GetTicks();
 
-		std::string msg = "Shutting down after: ";
-		msg.append(std::to_string(totalRuntime));
+		msg = "Shutting down after: ";
+		msg.append(std::to_string(totalRuntime * MILLISECOND_MULTIPLIER));
 		msg.append(" seconds.\n");
 		msg.append("Average frametime: ");
-		msg.append(std::to_string(totalRuntime / m_CurrentCycle));
+		msg.append(std::to_string((totalRuntime - loopStartTime) / m_CurrentCycle));
+		msg.append(" milliseconds.\n");
 		HE_LOG_CORE_INFO(msg);
 
 		Clean();

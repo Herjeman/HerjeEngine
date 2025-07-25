@@ -24,6 +24,7 @@ namespace HerjeEngine {
 		// ----------- Game Overrides
 		HE_API virtual void PreLoop() {}
 		HE_API virtual void Update(float deltaTime) {}
+		HE_API virtual void Draw() {}
 		HE_API virtual void Clean() {}
 
 

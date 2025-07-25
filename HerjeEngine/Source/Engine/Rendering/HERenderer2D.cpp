@@ -23,9 +23,7 @@ namespace HerjeEngine
 
 	void HERenderer2D::Render()
 	{
-		PreRender();
-		RenderRectangles();
-		PostRender();
+		// Not sure what to do here for now... not really how things turned out...
 	}
 
 	RenderRectangleComponent& HERenderer2D::AddRectangle(const EntityID ownerID, const RenderRectangleComponent& inRect)
@@ -45,7 +43,7 @@ namespace HerjeEngine
 		SDL_RenderPresent(m_Renderer);
 	}
 
-	void HERenderer2D::RenderRectangles()
+	void HERenderer2D::RenderRectangles_DEPRECATED()
 	{
 		if (m_RectangleRegistry.Count() == 0)
 		{
@@ -69,7 +67,25 @@ namespace HerjeEngine
 		}
 	}
 
-	void HERenderer2D::RenderSquare(const Vector2& Origin, const Vector2& Size)
+	void HERenderer2D::RenderRectangles(const std::vector<HERect>& rectsToRender)
+	{
+		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+		std::vector<SDL_FRect> sdlRects;
+		sdlRects.reserve(rectsToRender.size());
+
+		for (const auto& rect : rectsToRender)
+		{
+			sdlRects.push_back({ rect.Origin.X, rect.Origin.Y, rect.Size.X, rect.Size.Y });
+		}
+
+		if (SDL_RenderFillRects(m_Renderer, &sdlRects[0], static_cast<int>(sdlRects.size())))
+		{
+			const char* error = SDL_GetError();
+			HE_CORE_ASSERT(false, error);
+		}
+	}
+
+	void HERenderer2D::RenderRectangle(const Vector2& Origin, const Vector2& Size)
 	{
 		SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
 		SDL_FRect rect = SDL_FRect{ Origin.X, Origin.Y, Size.X,Size.Y };

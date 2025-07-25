@@ -33,29 +33,65 @@ static void AddRenderables(HerjeEngine::HERenderer2D& rectangleRenderer, const H
 	}
 }
 
+static void GetRandomVectors(const HerjeEngine::Vector2& min, const HerjeEngine::Vector2& max, int count, std::vector<HerjeEngine::Vector2>& out)
+{
+	std::random_device random;
+	std::mt19937 generator(random());
+
+	std::uniform_real_distribution<> xDistribution(min.X, max.X);
+	std::uniform_real_distribution<> yDistribution(min.Y, max.Y);
+
+	for (size_t i = 0; i < count; i++)
+	{
+		out.push_back({ static_cast<float>(xDistribution(generator)), static_cast<float>(yDistribution(generator)) });
+	}
+}
+
+static constexpr int NUMBER_OF_ENTITIES = 10000;
+
 class Game : public HerjeEngine::Application
 {
 public:
 	Game() {}
 	~Game() {}
 
+	std::vector<HerjeEngine::Vector2> m_Locations;
+	std::vector<HerjeEngine::Vector2> m_Sizes;
+	std::vector<HerjeEngine::Vector2> m_Velocities;
+
 	void PreLoop() override
 	{
-		auto* rectangleRenderer = GetRenderer();
+		constexpr float VELOCITY_MAX = 10;
+		const HerjeEngine::Vector2 size_min(1, 1);
+		const HerjeEngine::Vector2 size_max(5, 5);
+
 		auto* window = GetWindow();
 
-		if (rectangleRenderer == nullptr || window == nullptr)
-		{
-			HE_ASSERT(false, "No valid stuff wtf?");
-			return;
-		}
-
-		AddRenderables(*rectangleRenderer, *window);
-
+		GetRandomVectors({ 0, 0 }, window->GetDimensions(), NUMBER_OF_ENTITIES, m_Locations);
+		GetRandomVectors(size_min, size_max, NUMBER_OF_ENTITIES, m_Sizes);
+		GetRandomVectors({ -VELOCITY_MAX, -VELOCITY_MAX }, { VELOCITY_MAX, VELOCITY_MAX }, NUMBER_OF_ENTITIES, m_Velocities);
 	}
 
 	void Update(float deltaTime) override
 	{
+		for (size_t i = 0; i < NUMBER_OF_ENTITIES; i++)
+		{
+			m_Locations[i] += m_Velocities[i] * deltaTime;
+		}
+	}
+
+	void Draw() override
+	{
+		auto* rectangleRenderer = GetRenderer();
+		std::vector<HerjeEngine::HERect> rectsToRender;
+		rectsToRender.reserve(NUMBER_OF_ENTITIES);
+
+		for (size_t i = 0; i < NUMBER_OF_ENTITIES; i++)
+		{
+			rectsToRender.push_back({ m_Locations[i], m_Sizes[i] });
+		}
+
+		rectangleRenderer->RenderRectangles(rectsToRender);
 	}
 
 	void Clean() override

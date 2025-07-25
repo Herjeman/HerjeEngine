@@ -11,26 +11,34 @@ namespace HerjeEngine
 		float Height = 1;
 	};
 
+	struct HE_API HERect
+	{
+		Vector2 Origin;
+		Vector2 Size;
+	};
+
 	class HERenderer2D
 	{
 	public:
 		HERenderer2D(class HEWindow* window);
 		~HERenderer2D();
 
-		void Render();
-
-		HE_API RenderRectangleComponent& AddRectangle(const EntityID ownerID, const RenderRectangleComponent& inRect);
-
-	private:
 		void PreRender();
+		void Render();
 		void PostRender();
 
-		void RenderRectangles();
-		void RenderSquare(const Vector2& Origin, const Vector2& Size);
+		HE_API RenderRectangleComponent& AddRectangle(const EntityID ownerID, const RenderRectangleComponent& inRect);
+		HE_API void RenderRectangles(const std::vector<HERect>& rectsToRender);
+
+	private:
+
+		void RenderRectangles_DEPRECATED();
+		void RenderRectangle(const Vector2& origin, const Vector2& size);
 
 	private:
 		struct SDL_Renderer* m_Renderer;
 		HEComponentRegistrySimple<RenderRectangleComponent> m_RectangleRegistry;
+		std::vector<struct SDL_FRect> m_Renderables;
 	};
 }
 
