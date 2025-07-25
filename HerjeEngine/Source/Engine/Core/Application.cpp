@@ -6,8 +6,11 @@
 #include "Engine/Rendering/HERenderer2D.h"
 #include "SDL3/SDL_timer.h"
 
+
 namespace HerjeEngine
 {
+	static constexpr float MILLISECOND_MULTIPLIER = 0.001f;
+
 	Application::Application()
 	{
 		m_Window = std::make_unique<HEWindow>();
@@ -44,9 +47,17 @@ namespace HerjeEngine
 			m_ECS->ProcessSystems(*this);
 
 			m_Renderer->Render();
-
 			m_CurrentCycle++;
 		}
+
+		const float totalRuntime = SDL_GetTicks() * MILLISECOND_MULTIPLIER;
+
+		std::string msg = "Shutting down after: ";
+		msg.append(std::to_string(totalRuntime));
+		msg.append(" seconds.\n");
+		msg.append("Average frametime: ");
+		msg.append(std::to_string(totalRuntime / m_CurrentCycle));
+		HE_LOG_CORE_INFO(msg);
 
 		Clean();
 	}
@@ -74,6 +85,6 @@ namespace HerjeEngine
 		}
 #endif // HE_CONFIGURATION_DEBUG
 
-		return frameTime * 0.001f;
+		return frameTime * MILLISECOND_MULTIPLIER;
 	}
 }
